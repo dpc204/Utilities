@@ -28,12 +28,19 @@ class PathFind
             {
                 matches = Directory.GetFiles(dir, searchPattern);
             }
+            catch (ArgumentException ex)
+            {
+                Console.Error.WriteLine($"Warning: Invalid search pattern '{searchPattern}': {ex.Message}");
+                return 1;
+            }
             catch (UnauthorizedAccessException)
             {
+                Console.Error.WriteLine($"Warning: Access denied to directory '{dir}', skipping.");
                 continue;
             }
-            catch (IOException)
+            catch (IOException ex)
             {
+                Console.Error.WriteLine($"Warning: Could not search directory '{dir}': {ex.Message}");
                 continue;
             }
 
